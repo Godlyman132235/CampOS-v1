@@ -1,0 +1,317 @@
+/* CampOS v1 — Base stylesheet
+   Design tokens mirror 03_Design_Visual/UI_DIRECTION.md in the same order.
+   Never hardcode a value in a rule below; add or use a token here instead. */
+
+:root {
+  /* Base (Dark Foundation) */
+  --color-base: #0D0B14;
+  --color-base-raised: #141020;
+  --color-base-float: #1C1830;
+
+  /* Accent Purple */
+  --color-purple-strong: #7C4DDB;
+  --color-purple-muted: #4A2E8A;
+  --color-purple-glow: rgba(124, 77, 219, 0.25);
+
+  /* Accent Blue */
+  --color-blue-strong: #3B82F6;
+  --color-blue-muted: #1E4A8F;
+  --color-blue-glow: rgba(59, 130, 246, 0.20);
+
+  /* Text */
+  --color-text-primary: #EDE9F7;
+  --color-text-secondary: #9B97B0;
+  --color-text-muted: #5C5878;
+  --color-text-inverse: #0D0B14;
+
+  /* Code Area (Workspace) */
+  --color-code-bg: #0A0810;
+  --color-code-text: #E2DFF5;
+  --color-code-line-num: #4A4660;
+  --color-code-highlight: rgba(124, 77, 219, 0.15);
+  --color-code-accept: rgba(34, 197, 94, 0.15);
+  --color-code-reject: rgba(239, 68, 68, 0.15);
+
+  /* Functional */
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-locked: #3D3A52;
+
+  /* Widget Surfaces (Glossy Elements) */
+  --color-widget-bg: rgba(255, 255, 255, 0.06);
+  --color-widget-border: rgba(255, 255, 255, 0.10);
+  --color-widget-shine: rgba(255, 255, 255, 0.14);
+  --color-widget-shadow: rgba(0, 0, 0, 0.40);
+
+  /* Font Families */
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", "Courier New", monospace;
+
+  /* Type Scale */
+  --type-xs: 0.75rem;
+  --type-sm: 0.875rem;
+  --type-base: 1rem;
+  --type-md: 1.125rem;
+  --type-lg: 1.25rem;
+  --type-xl: 1.5rem;
+  --type-2xl: 2rem;
+  --type-3xl: 2.75rem;
+
+  /* Weight */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-bold: 700;
+
+  /* Line Height */
+  --leading-tight: 1.25;
+  --leading-base: 1.6;
+  --leading-code: 1.7;
+
+  /* Letter Spacing */
+  --tracking-tight: -0.02em;
+  --tracking-base: 0em;
+  --tracking-wide: 0.06em;
+
+  /* Spacing Scale (8-point grid) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 2.5rem;
+  --space-8: 3rem;
+  --space-10: 4rem;
+  --space-12: 6rem;
+
+  /* Layout Widths */
+  --width-content: 720px;
+  --width-dashboard: 1280px;
+  --width-workspace: 1440px;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Durations */
+  --duration-instant: 80ms;
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+  --duration-slow: 350ms;
+  --duration-enter: 400ms;
+
+  /* Easing */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-enter: cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Elevation and glass (composed from the widget tokens above) */
+  --widget-blur: 12px;
+  --color-widget-border-hover: rgba(255, 255, 255, 0.16);
+  --shadow-widget: 0 8px 32px var(--color-widget-shadow);
+  --shadow-inset: inset 0 1px 2px var(--color-widget-shadow);
+  --glow-purple: 0 0 20px var(--color-purple-glow);
+
+  /* Focus ring */
+  --focus-width: 2px;
+  --focus-offset: 2px;
+}
+
+/* Reset */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+/* Author display rules outrank the UA sheet, so [hidden] needs restating here
+   or any component with an explicit display would ignore it. */
+[hidden] {
+  display: none !important;
+}
+
+/* Base */
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  background-color: var(--color-base);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--type-base);
+  line-height: var(--leading-base);
+  letter-spacing: var(--tracking-base);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Wordmark */
+
+.wordmark {
+  font-family: var(--font-serif);
+  font-size: var(--type-3xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.wordmark__camp {
+  color: var(--color-text-primary);
+}
+
+.wordmark__os {
+  color: var(--color-purple-strong);
+}
+
+/* Focus */
+
+:focus-visible {
+  outline: var(--focus-width) solid var(--color-purple-strong);
+  outline-offset: var(--focus-offset);
+}
+
+/* Widget — the glossy translucent surface used across Dashboard and Workspace */
+
+.widget {
+  background: var(--color-widget-bg);
+  backdrop-filter: blur(var(--widget-blur));
+  -webkit-backdrop-filter: blur(var(--widget-blur));
+  border: 1px solid var(--color-widget-border);
+  border-top-color: var(--color-widget-shine);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-widget);
+}
+
+.widget--interactive {
+  transition:
+    box-shadow var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+}
+
+.widget--interactive:hover {
+  border-color: var(--color-widget-border-hover);
+  box-shadow: var(--shadow-widget), var(--glow-purple);
+}
+
+/* Buttons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--type-sm);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--tracking-base);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    color var(--duration-fast) var(--ease-standard),
+    filter var(--duration-fast) var(--ease-standard),
+    transform var(--duration-instant) var(--ease-standard);
+}
+
+.btn--primary {
+  background-color: var(--color-purple-strong);
+  color: var(--color-text-primary);
+}
+
+.btn--secondary {
+  border-color: var(--color-purple-strong);
+  color: var(--color-purple-strong);
+}
+
+.btn--danger {
+  background-color: var(--color-error);
+  color: var(--color-text-primary);
+}
+
+.btn--primary:hover,
+.btn--danger:hover {
+  filter: brightness(1.1);
+}
+
+.btn--secondary:hover {
+  background-color: var(--color-purple-glow);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:disabled {
+  background-color: var(--color-locked);
+  border-color: transparent;
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+  filter: none;
+  transform: none;
+}
+
+/* Reduced motion.
+   The attribute is set by JS from the OS preference plus the in-app toggle.
+   The media query repeats the rules so the OS preference still applies without JS.
+
+   Never add `transform: none` to these blanket selectors. Transform does static
+   layout as well as motion, and a global override cannot tell them apart — it
+   silently breaks anything centred with translate. Killing transform transitions
+   is enough to stop the movement; suppress individual motion transforms by name
+   below if one is applied as a state change rather than a transition. */
+
+[data-reduced-motion="true"] *,
+[data-reduced-motion="true"] *::before,
+[data-reduced-motion="true"] *::after {
+  animation: none !important;
+  transition-property: opacity !important;
+  transition-duration: var(--duration-fast) !important;
+  transition-timing-function: linear !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-property: opacity !important;
+    transition-duration: var(--duration-fast) !important;
+    transition-timing-function: linear !important;
+  }
+}
+
+/* The press scale is applied as a state change, so removing transform
+   transitions above does not suppress it. */
+
+[data-reduced-motion="true"] .btn:active {
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:active {
+    transform: none !important;
+  }
+}

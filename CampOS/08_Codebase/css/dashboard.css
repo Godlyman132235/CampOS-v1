@@ -1,0 +1,616 @@
+/* CampOS v1 — Dashboard
+   Structure and visual treatment for the nav bar and the five sections.
+   Shared primitives (.widget, .btn, focus, motion tokens) live in base.css. */
+
+/* Navigation */
+
+/* Full-bleed bar: keeps the widget surface, shine and shadow, drops the side
+   borders and rounding so it spans the viewport edge to edge. */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-right-width: 0;
+  border-left-width: 0;
+  border-radius: 0;
+  padding: var(--space-3) var(--space-5);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  max-width: var(--width-dashboard);
+  margin: 0 auto;
+}
+
+/* The wordmark keeps its markup and colours; only its scale changes in the bar. */
+.nav .wordmark {
+  font-size: var(--type-lg);
+  flex-shrink: 0;
+}
+
+.nav__tabs {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex: 1;
+}
+
+/* Pushes Profile and Settings to the far right, per the layout priority guidance. */
+.nav__gap {
+  flex: 1;
+}
+
+.nav__tab {
+  position: relative;
+  min-height: 44px;
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--type-sm);
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+.nav__tab:hover {
+  color: var(--color-text-primary);
+  background-color: var(--color-widget-bg);
+}
+
+.nav__tab.is-active {
+  color: var(--color-text-primary);
+  background-color: var(--color-purple-glow);
+}
+
+.nav__tab.is-active::after {
+  content: "";
+  position: absolute;
+  right: var(--space-4);
+  bottom: var(--space-1);
+  left: var(--space-4);
+  height: var(--focus-width);
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    90deg,
+    var(--color-purple-strong),
+    var(--color-blue-strong)
+  );
+}
+
+/* Section shell */
+
+.dash {
+  flex: 1;
+  width: 100%;
+  max-width: var(--width-dashboard);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-5) var(--space-10);
+}
+
+/* All five sections share one grid cell so an outgoing and incoming section can
+   crossfade without shifting the page. */
+.dash__sections {
+  display: grid;
+  align-items: start;
+}
+
+.dash-section {
+  grid-row: 1;
+  grid-column: 1;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateX(12px);
+  transition:
+    opacity var(--duration-fast) var(--ease-exit),
+    transform var(--duration-fast) var(--ease-exit),
+    visibility 0s linear var(--duration-fast);
+}
+
+.dash-section.is-active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0);
+  transition:
+    opacity var(--duration-base) var(--ease-enter),
+    transform var(--duration-base) var(--ease-enter),
+    visibility 0s;
+}
+
+/* Held briefly by JS so the outgoing section slides left while the next arrives. */
+.dash-section.is-exiting {
+  opacity: 0;
+  visibility: visible;
+  transform: translateX(-12px);
+}
+
+.section__title {
+  font-family: var(--font-serif);
+  font-size: var(--type-2xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.section__lead {
+  margin-top: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: var(--type-md);
+}
+
+/* Panels */
+
+.panel {
+  margin-top: var(--space-5);
+  padding: var(--space-6);
+}
+
+.panel__note {
+  margin-top: var(--space-5);
+  color: var(--color-text-muted);
+  font-size: var(--type-sm);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding: var(--space-4) 0;
+  border-bottom: 1px solid var(--color-widget-border);
+}
+
+.field:first-child {
+  padding-top: 0;
+}
+
+.field:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.field__label {
+  color: var(--color-text-secondary);
+  font-size: var(--type-sm);
+}
+
+.field__value {
+  font-family: var(--font-mono);
+  font-size: var(--type-sm);
+}
+
+.link {
+  color: var(--color-blue-strong);
+  font-size: var(--type-sm);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+/* Progress bar */
+
+.progress__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-bottom: var(--space-3);
+}
+
+.progress__label {
+  color: var(--color-text-secondary);
+  font-size: var(--type-sm);
+}
+
+.progress__count {
+  font-size: var(--type-lg);
+  font-weight: var(--weight-medium);
+}
+
+/* Widget surface tokens without the lifted shadow — a 10px track reads better inset. */
+.progress__track {
+  height: 10px;
+  border: 1px solid var(--color-widget-border);
+  border-top-color: var(--color-widget-shine);
+  border-radius: var(--radius-full);
+  background: var(--color-widget-bg);
+  box-shadow: var(--shadow-inset);
+  overflow: hidden;
+}
+
+.progress__fill {
+  width: var(--progress-pct, 0%);
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(
+    90deg,
+    var(--color-purple-strong),
+    var(--color-blue-strong)
+  );
+  box-shadow: var(--glow-purple);
+  transition: width var(--duration-slow) var(--ease-standard);
+}
+
+/* Cards */
+
+/* 300px keeps three cards on one row at the 1280px target and drops to two
+   below that, which stops card titles wrapping mid-phrase. */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-5);
+  margin-top: var(--space-5);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+
+.card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.card__title {
+  font-family: var(--font-sans);
+  font-size: var(--type-md);
+  font-weight: var(--weight-medium);
+}
+
+.card__desc {
+  flex: 1;
+  color: var(--color-text-secondary);
+  font-size: var(--type-sm);
+}
+
+.card__foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.card__meta {
+  color: var(--color-text-muted);
+  font-size: var(--type-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.card--locked {
+  border-color: var(--color-locked);
+  opacity: 0.4;
+}
+
+/* Status pills */
+
+.pill {
+  flex-shrink: 0;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid transparent;
+  border-radius: var(--radius-full);
+  font-size: var(--type-xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.pill--done {
+  border-color: var(--color-success);
+  color: var(--color-success);
+}
+
+.pill--open {
+  border-color: var(--color-purple-strong);
+  color: var(--color-purple-strong);
+}
+
+.pill--locked {
+  border-color: var(--color-locked);
+  color: var(--color-text-muted);
+}
+
+/* Reduced-motion switch */
+
+.toggle {
+  position: relative;
+  flex-shrink: 0;
+  width: var(--space-8);
+  height: var(--space-5);
+  padding: 0;
+  border: 1px solid var(--color-widget-border);
+  border-radius: var(--radius-full);
+  background-color: var(--color-widget-bg);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--ease-standard);
+}
+
+/* Pinning top and bottom against a fixed height lets auto margins do the
+   vertical centring, so the knob never depends on transform to stay in line. */
+.toggle__knob {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--space-1);
+  width: var(--space-4);
+  height: var(--space-4);
+  margin: auto 0;
+  border-radius: var(--radius-full);
+  background-color: var(--color-text-muted);
+  transition:
+    left var(--duration-fast) var(--ease-standard),
+    background-color var(--duration-fast) var(--ease-standard);
+}
+
+.toggle[aria-checked="true"] {
+  background-color: var(--color-purple-strong);
+  border-color: var(--color-purple-strong);
+}
+
+.toggle[aria-checked="true"] .toggle__knob {
+  left: calc(100% - var(--space-4) - var(--space-1));
+  background-color: var(--color-text-primary);
+}
+
+/* Card entry — runs once, the first time a section becomes visible */
+
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.dash-section[data-revealed="true"] .card {
+  animation: card-enter var(--duration-base) var(--ease-enter) both;
+}
+
+.dash-section[data-revealed="true"] .card:nth-child(1) {
+  animation-delay: calc(0 * var(--stagger-step, 50ms));
+}
+
+.dash-section[data-revealed="true"] .card:nth-child(2) {
+  animation-delay: calc(1 * var(--stagger-step, 50ms));
+}
+
+.dash-section[data-revealed="true"] .card:nth-child(3) {
+  animation-delay: calc(2 * var(--stagger-step, 50ms));
+}
+
+#theory-cards[data-skip-enter] .card {
+  animation: none;
+}
+
+/* Theory reading and check pages */
+
+body.is-theory-page {
+  overflow: hidden;
+}
+
+body.is-theory-page .nav,
+body.is-theory-page .dash {
+  display: none;
+}
+
+.theory-page {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow: auto;
+  background-color: var(--color-base);
+}
+
+.theory-page__bar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: var(--space-3) var(--space-5);
+  background-color: var(--color-base);
+}
+
+.theory-page__home {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.theory-page__home .wordmark {
+  font-size: var(--type-lg);
+}
+
+.theory-page__main {
+  max-width: var(--width-content);
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-5) var(--space-10);
+}
+
+.theory-page__title {
+  font-family: var(--font-serif);
+  font-size: var(--type-2xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  margin-bottom: var(--space-6);
+}
+
+.theory-page__footer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
+}
+
+.theory-body h2 {
+  font-family: var(--font-serif);
+  font-size: var(--type-xl);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  margin-top: var(--space-8);
+  margin-bottom: var(--space-4);
+}
+
+.theory-body h2:first-child {
+  margin-top: 0;
+}
+
+.theory-body h3 {
+  font-family: var(--font-sans);
+  font-size: var(--type-lg);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-tight);
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-3);
+}
+
+.theory-body p {
+  margin-bottom: var(--space-4);
+}
+
+.theory-body blockquote {
+  margin: var(--space-5) 0;
+  padding: var(--space-4) var(--space-5);
+  border-left: var(--space-1) solid var(--color-purple-strong);
+  color: var(--color-text-secondary);
+}
+
+.theory-body blockquote p {
+  margin-bottom: var(--space-2);
+}
+
+.theory-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.theory-body ol,
+.theory-body ul {
+  margin: 0 0 var(--space-4) var(--space-5);
+}
+
+.theory-body li {
+  margin-bottom: var(--space-2);
+}
+
+.theory-body hr {
+  border: 0;
+  border-top: 1px solid var(--color-widget-border);
+  margin: var(--space-6) 0;
+}
+
+.theory-body__status {
+  color: var(--color-text-secondary);
+}
+
+.check-q {
+  margin: 0 0 var(--space-8);
+  padding: 0;
+  border: 0;
+}
+
+.check-q__legend {
+  font-family: var(--font-sans);
+  font-size: var(--type-lg);
+  font-weight: var(--weight-medium);
+  margin-bottom: var(--space-4);
+}
+
+.check-q__stem {
+  margin-bottom: var(--space-4);
+}
+
+.check-options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.check-option {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  cursor: pointer;
+  color: var(--color-text-primary);
+  font-size: var(--type-sm);
+  line-height: var(--leading-base);
+}
+
+.check-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.check-option:has(:checked),
+.check-option.is-selected {
+  box-shadow: var(--shadow-widget), var(--glow-purple),
+    inset var(--space-1) 0 0 var(--color-purple-strong);
+}
+
+.theory-check__fail {
+  color: var(--color-error);
+  font-size: var(--type-sm);
+}
+
+@keyframes card-unlock {
+  0% {
+    border-color: var(--color-purple-strong);
+    transform: scale(1);
+  }
+
+  40% {
+    border-color: var(--color-purple-strong);
+    transform: scale(1.02);
+  }
+
+  100% {
+    border-color: var(--color-widget-border);
+    transform: scale(1);
+  }
+}
+
+.card--unlocking {
+  animation: card-unlock 600ms var(--ease-bounce) both;
+}
+
+[data-reduced-motion="true"] .card--unlocking {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card--unlocking {
+    animation: none;
+  }
+}

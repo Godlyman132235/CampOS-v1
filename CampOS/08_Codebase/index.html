@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CampOS</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;700&family=JetBrains+Mono:wght@400&display=swap"
+    />
+
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/workspace.css" />
+  </head>
+  <body>
+    <header class="nav widget">
+      <div class="nav__inner">
+        <h1 class="wordmark">
+          <span class="wordmark__camp">Camp</span
+          ><span class="wordmark__os">OS</span>
+        </h1>
+
+        <nav class="nav__tabs" aria-label="Dashboard sections">
+          <button
+            class="nav__tab is-active"
+            type="button"
+            data-section="progression"
+            aria-controls="section-progression"
+            aria-current="page"
+          >
+            Progression
+          </button>
+          <button
+            class="nav__tab"
+            type="button"
+            data-section="theory"
+            aria-controls="section-theory"
+          >
+            Theory
+          </button>
+          <button
+            class="nav__tab"
+            type="button"
+            data-section="scenarios"
+            aria-controls="section-scenarios"
+          >
+            Scenarios
+          </button>
+
+          <span class="nav__gap" aria-hidden="true"></span>
+
+          <button
+            class="nav__tab"
+            type="button"
+            data-section="profile"
+            aria-controls="section-profile"
+          >
+            Profile
+          </button>
+          <button
+            class="nav__tab"
+            type="button"
+            data-section="settings"
+            aria-controls="section-settings"
+          >
+            Settings
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="dash">
+      <div class="dash__sections">
+        <section
+          class="dash-section is-active"
+          id="section-progression"
+          data-section="progression"
+          aria-label="Progression"
+        >
+          <h2 class="section__title">Your progression</h2>
+          <p class="section__lead">
+            Where you are in the eight-scenario journey.
+          </p>
+
+          <div class="widget panel">
+            <div class="progress">
+              <div class="progress__head">
+                <span class="progress__label">Scenarios completed</span>
+                <span class="progress__count" id="progress-count">0 of 8</span>
+              </div>
+              <div
+                class="progress__track"
+                id="progress-track"
+                data-completed="0"
+                data-total="8"
+                role="progressbar"
+                aria-valuemin="0"
+                aria-valuemax="8"
+                aria-valuenow="0"
+                aria-valuetext="0 of 8 scenarios completed"
+              >
+                <div class="progress__fill"></div>
+              </div>
+            </div>
+
+            <p class="panel__note" id="continue-empty">
+              Nothing in progress yet. Pass a theory check to unlock your first
+              scenario.
+            </p>
+            <button
+              class="btn btn--primary"
+              type="button"
+              id="continue-btn"
+              hidden
+            >
+              Continue where you left off
+            </button>
+          </div>
+        </section>
+
+        <section
+          class="dash-section"
+          id="section-theory"
+          data-section="theory"
+          aria-label="Theory browser"
+        >
+          <h2 class="section__title">Theory</h2>
+          <p class="section__lead">
+            Read a concept, then pass its check to unlock the linked scenario.
+          </p>
+
+          <div class="cards" id="theory-cards"></div>
+        </section>
+
+        <section
+          class="dash-section"
+          id="section-scenarios"
+          data-section="scenarios"
+          aria-label="Scenario launcher"
+        >
+          <h2 class="section__title">Scenarios</h2>
+          <p class="section__lead">
+            A small set, chosen for where you are. Pick one to work on.
+          </p>
+
+          <div class="cards" id="scenario-cards"></div>
+        </section>
+
+        <section
+          class="dash-section"
+          id="section-profile"
+          data-section="profile"
+          aria-label="Profile"
+        >
+          <h2 class="section__title">Profile</h2>
+          <p class="section__lead">
+            No accounts in this version. Progress stays in this browser.
+          </p>
+
+          <div class="widget panel">
+            <div class="field">
+              <span class="field__label">Username</span>
+              <span class="field__value">Builder-42</span>
+            </div>
+
+            <div class="field">
+              <span class="field__label" id="profile-motion-label"
+                >Reduced motion</span
+              >
+              <button
+                class="toggle"
+                type="button"
+                role="switch"
+                aria-checked="false"
+                aria-labelledby="profile-motion-label"
+                data-toggle="reduced-motion"
+              >
+                <span class="toggle__knob"></span>
+              </button>
+            </div>
+
+            <div class="field">
+              <span class="field__label">Reset all progress</span>
+              <button class="btn btn--danger" type="button" id="reset-progress">
+                Reset
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <section
+          class="dash-section"
+          id="section-settings"
+          data-section="settings"
+          aria-label="Settings"
+        >
+          <h2 class="section__title">Settings</h2>
+          <p class="section__lead">Only what this version actually needs.</p>
+
+          <div class="widget panel">
+            <div class="field">
+              <span class="field__label" id="settings-motion-label"
+                >Reduced motion</span
+              >
+              <button
+                class="toggle"
+                type="button"
+                role="switch"
+                aria-checked="false"
+                aria-labelledby="settings-motion-label"
+                data-toggle="reduced-motion"
+              >
+                <span class="toggle__knob"></span>
+              </button>
+            </div>
+
+            <div class="field">
+              <span class="field__label">About CampOS</span>
+              <a class="link" href="#" data-placeholder>Read more</a>
+            </div>
+
+            <div class="field">
+              <span class="field__label">Send feedback</span>
+              <a class="link" href="#" data-placeholder>Open form</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <section
+      id="view-theory-read"
+      class="theory-page"
+      hidden
+      aria-label="Theory reading"
+    >
+      <div class="theory-page__bar">
+        <button
+          type="button"
+          class="theory-page__home"
+          data-theory-home
+          aria-label="Home"
+        >
+          <span class="wordmark"
+            ><span class="wordmark__camp">Camp</span
+            ><span class="wordmark__os">OS</span></span
+          >
+        </button>
+      </div>
+      <article class="theory-page__main">
+        <h1 class="theory-page__title" id="theory-read-title"></h1>
+        <div class="theory-body" id="theory-read-body"></div>
+        <div class="theory-page__footer">
+          <button
+            type="button"
+            class="btn btn--primary"
+            id="theory-read-to-check"
+            hidden
+          >
+            Take the check
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <section
+      id="view-theory-check"
+      class="theory-page"
+      hidden
+      aria-label="Theory comprehension check"
+    >
+      <div class="theory-page__bar">
+        <button
+          type="button"
+          class="theory-page__home"
+          data-theory-home
+          aria-label="Home"
+        >
+          <span class="wordmark"
+            ><span class="wordmark__camp">Camp</span
+            ><span class="wordmark__os">OS</span></span
+          >
+        </button>
+      </div>
+      <article class="theory-page__main">
+        <h1 class="theory-page__title" id="theory-check-title"></h1>
+        <form id="theory-check-form" class="theory-check">
+          <div id="theory-check-questions"></div>
+          <div class="theory-page__footer">
+            <p
+              class="theory-check__fail"
+              id="theory-check-fail"
+              hidden
+              aria-live="polite"
+            >
+              You did not pass. Review the concept and try again.
+            </p>
+            <button
+              type="submit"
+              class="btn btn--primary"
+              id="theory-check-submit"
+              disabled
+            >
+              Submit
+            </button>
+            <button
+              type="button"
+              class="btn btn--secondary"
+              id="theory-check-reread"
+              hidden
+            >
+              Reread theory
+            </button>
+          </div>
+        </form>
+      </article>
+    </section>
+
+    <script src="js/main.js" defer></script>
+    <script src="js/firefly.js" defer></script>
+    <script src="js/dashboard.js" defer></script>
+    <script src="js/workspace.js" defer></script>
+  </body>
+</html>
